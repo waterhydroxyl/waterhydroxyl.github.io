@@ -1,247 +1,193 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+
 <head>
-  <meta charset="gb2312">
-  <title>记事本</title>
-  <style type="text/css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <title>100%晴天女孩</title>
+  <style>
     * {
-      margin: 0;
       padding: 0;
+      margin: 0;
+      list-style: none
     }
 
-    body, input {
-      font-size: 14px;
-      line-height: 24px;
-      color: #333;
-      font-family: Microsoft yahei, Song, Arial, Helvetica, Tahoma, Geneva;
+    .main {
+      /* border: 1px solid green; */
+      background-image: url(main.jpg);
+      background-size: cover;
+      width: 900px;
+      height: 660px;
+      margin: 20px auto 30px auto;
+      position: relative;
     }
 
-    h1 {
-      margin-bottom: 15px;
-      height: 100px;
-      line-height: 100px;
-      text-align: center;
-      font-size: 24px;
-      color: #fff;
-      background: black;
+    .input-box {
+      /* border: 1px solid red; */
+      background-color: bisque;
+      position: absolute;
+      bottom: 0;
+      right: 55px;
+      width: 370px;
+      height: 335px;
+      border-radius: 10px;
+      box-shadow: rgb(85, 85, 85) 0px 0px 5px;
     }
 
-    #content #post, #comment p {
-      zoom: 1;
+    .box1 {
+      /* border: 1px solid indigo; */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 15px 0px 15px;
     }
 
-    #content #post:after, #comment p:after {
-      display: block;
-      height: 0;
-      clear: both;
-      visibility: hidden;
-      overflow: hidden;
-      content: '.';
+    .box1 span {
+      font-size: 22px;
+      color: red;
     }
 
-    .transition {
-      -webkit-transition: all 0.5s linear;
-      -moz-transition: all 0.5s linear;
-      -o-transition: all 0.5s linear;
-      -ms-transition: all 0.5s linear;
-      transition: all 0.5s linear;
+    .box2 {
+      /* border: 1px solid hotpink; */
+      margin: 10px 15px 0px 15px;
     }
 
-    #content {
-      margin: 0 auto;
-      width: 960px;
-      overflow: hidden;
+    .box3 {
+      /* border: 1px solid aqua; */
+      display: flex;
+      margin: 10px 15px 0px 15px;
+      justify-content: space-between;
     }
 
-    #content #post {
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-      border-bottom: 1px #d4d4d4 dashed;
-      height: 556px;
+    .box4 {
+      /* border: 1px solid thistle; */
+      margin: 10px 15px 0px 15px;
     }
 
-    #content #post textarea {
-      display: block;
-      margin-bottom: 10px;
-      padding: 5px;
-      width: 948px;
-      height: 390px;
-      border: 1px #d1d1d1 solid;
-      border-radius: 5px;
+    .input-address {
+      width: 99%;
+    }
+
+    .box5 {
+      /* border: 1px solid salmon; */
+      margin: 10px 15px 0px 15px;
+    }
+
+    .input-reason {
+      width: 99.5%;
+      height: 50px;
       resize: none;
+    }
+
+    .box6 {
+      /* border: 1px solid olivedrab; */
+      margin: 5px 15px 0px 15px;
+      text-align: center;
+    }
+
+    .box6 button {
+      background: red;
+      border: none;
       outline: none;
+      border-radius: 20px;
+      color: white;
+      width: 100px;
+      height: 35px;
     }
 
-    #content #post textarea:hover {
-      border: 1px #9bdf70 solid;
-      background: #f0fbeb;
+    .comment {
+      width: 1000px;
+      height: auto;
+      right: 0;
+      margin: 20px auto;
+      position: relative;
+      background-color: antiquewhite;
+      border-radius: 10px;
+      box-shadow: rgb(85, 85, 85) 0px 0px 5px;
     }
 
-    #content #post #postBt, #content #post #clearBt {
-      margin-left: 5px;
-      padding: 3px;
-      float: right;
+    .comment ul li {
+      height: auto;
+      margin: 10px auto;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #222;
     }
-
-    #comment {
-      overflow: hidden;
-    }
-
-    #comment p {
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    #comment p:nth-child(odd) {
-      border: 1px solid #e3e197;
-      background: #ffd;
-    }
-
-    #comment p:nth-child(even) {
-      border: 1px solid #adcd3c;
-      background: #f2fddb;
-    }
-
-    /*#comment p span{display:inline; float:left;}*/
-    #comment p .right {
-      text-align: right;
-    }
-
-    #comment p .msg {
-      width: 738px;
-    }
-
-    #comment p .datetime {
-      width: 200px;
-      color: #999;
-      text-align: right;
-    }
-
-
   </style>
-  <script type="text/javascript">
-    var named;
-
-    function delete1(id) {
-      localStorage.removeItem(id);
-      this.Storage.writeData();
-    }
-
-    function prom() {
-
-      var name = prompt("请输入您的名字", "");//将输入的内容赋给变量 name ，
-      named = name;
-      //这里需要注意的是，prompt有两个参数，前面是提示的话，后面是当对话框出来后，在对话框里的默认值
-
-      if (named)//如果返回的有内容
-
-      {
-
-        alert("欢迎您：" + name)
-        document.getElementById("shangtian").style.display = "none";
-        document.getElementById("ritian").value = named;
-
-      } else {
-        document.getElementById("ritian").value = "匿名发言者";
-      }
-
-    }
-
-    var Storage =
-        {
-          saveData: function ()//保存数据
-          {
-
-            var data = document.querySelector("#post textarea");
-            if (data.value != "") {
-              var time = new Date().getTime() + Math.random() * 5;//getTime是Date对象中的方法，作用是返回 1970年01月01日至今的毫秒数
-              if (named) {
-                localStorage.setItem(time, data.value + "|" + named + "|" + this.getDateTime());//将毫秒数存入Key值中，可以降低Key值重复率
-              } else {
-                localStorage.setItem(time, data.value + "|" + "匿名发言者" + "|" + this.getDateTime());//将毫秒数存入Key值中，可以降低Key值重复率
-              }
-
-              data.value = "";
-              this.writeData();
-            } else {
-              alert("请填写您的留言！");
-            }
-          },
-          writeData: function ()//输出数据
-          {
-            var dataHtml = "", data = "";
-            for (var i = localStorage.length - 1; i >= 0; i--)//效率更高的循环方法
-            {
-              data = localStorage.getItem(localStorage.key(i)).split("|");
-
-              //dataHtml += "<p><span class=\"msg\">" + data[0] + "</span><span class=\"datetime\">" + data[1] + "</span><span>" + data[2]+"</span></p>";
-              dataHtml += "<span style=>" + data[1] + "<span style=\"float:right\">" + data[2] + "</span><p><span class=\"msg\">" + data[0] + "<input style=\"float:right;border:none;border-radius:5px;\" id=\"clearBt\" type=\"button\" onclick=\"delete1(" + localStorage.key(i) + ");\" value=\"删除\"/>" + "</span></p>";
-            }
-            document.getElementById("comment").innerHTML = dataHtml;
-          },
-          clearData: function ()//清空数据
-          {
-            if (localStorage.length > 0) {
-              if (window.confirm("清空后不可恢复，是否确认清空？")) {
-                localStorage.clear();
-                this.writeData();
-              }
-            } else {
-              alert("没有需要清空的数据！");
-            }
-          },
-          getDateTime: function ()//获取日期时间，例如 2012-03-08 12:58:58
-          {
-            var isZero = function (num)//私有方法，自动补零
-            {
-              if (num < 10) {
-                num = "0" + num;
-              }
-              return num;
-            }
-
-            var d = new Date();
-            return d.getFullYear() + "-" + isZero(d.getMonth() + 1) + "-" + isZero(d.getDate()) + " " + isZero(d.getHours()) + ":" + isZero(d.getMinutes()) + ":" + isZero(d.getSeconds());
-          }
-        }
-
-    window.onload = function () {
-      Storage.writeData();//当打开页面的时候，先将localStorage中的数据输出一边，如果没有数据，则输出空
-      document.getElementById("postBt").onclick = function () {
-        Storage.saveData();
-      }//发表评论按钮添加点击事件，作用是将localStorage中的数据输出
-      document.getElementById("clearBt").onclick = function () {
-        Storage.clearData();
-      }//清空所有已保存的数据
-    }
-
-
-  </script>
 </head>
-
 <body>
-<h1>留言板</h1>
-
-<div id="content">
-  <div id="post">
-    <div style="background:#3EADC5 ;height:30px;">
-      昵称：<input type="submit" id="shangtian" name="Submit3" style="border:none; background-color:#3EADC5; color:white;"
-                value="默认用户点击改变" onclick="prom()"/>
-      <input type="text" id="ritian" style="border:none; background-color:#3EADC5; color:white;" onclick="prom()"/>
-      <!--disabled="disabled"-->
+<div class="main">
+  <div class="input-box">
+    <div class="box1">
+      <span>¥0</span>
     </div>
-    <div>
-      <textarea class="transition"></textarea>
+    <div class="box2">
+      因为下雨而困扰的你，100%的晴天女孩会为你带来阳光😄无论在什么地方...
     </div>
-    <input id="postBt" type="button"
-           style="border:none; background-color:#3EADC5; color:white;border-radius:5px; width:80px; height:30px;"
-           value="发表留言"/>
-    <input id="clearBt" type="button"
-           style="border:none; background-color:#3EADC5; color:white;border-radius:5px; width:80px; height:30px;"
-           value="清空"/>
+    <div class="box3">
+      <div class="input-name">
+        <div>你的昵称:</div>
+        <input type="text" id="nikeName">
+      </div>
+      <div class="input-date">
+        <div>日期：</div>
+        <input id="dateTime" type="date"/>
+      </div>
+    </div>
+    <div class="box4">
+      <div>希望天晴的地址：</div>
+      <input type="text" class="input-address" id="txtAddress">
+    </div>
+    <div class="box5">
+      <div>希望天晴的理由：</div>
+      <textarea class="input-reason" id="txtCom"></textarea>
+    </div>
+    <div class="box6">
+      <button id="btn1">提交请求</button>
+    </div>
   </div>
-  <div id="comment"></div>
-</div> 
+</div>
+<div class="comment">
+  <h1>大家的委托:</h1>
+  <br/>
+  <ul id="olid">
+  </ul>
+
+</div>
 </body>
+<script>
+  const btn1 = document.getElementById('btn1');
+
+  btn1.onclick = function () {
+    const nikeName = document.getElementById('nikeName').value;
+    const txtCom = document.getElementById('txtCom').value;
+    const txtAddress = document.getElementById('txtAddress').value;
+    const dateTime = document.getElementById('dateTime').value;
+
+    const time = new Date().getTime() + Math.random() * 5;
+    localStorage.setItem(time, nikeName + "希望" + txtAddress + "在" + dateTime + "天晴，因为" + txtCom);
+
+    alert("许愿不花钱,也没有晴女");
+    alert("仅此以作纪念");
+
+    writeData();
+    location.reload();
+  }
+  const olid = document.getElementById('olid');
+
+  function writeData() {
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const data = localStorage.getItem(localStorage.key(i));
+      console.log(data);
+      const liobj = document.createElement("LI");
+      liobj.innerHTML = data;
+      olid.appendChild(liobj);
+    }
+  }
+
+  window.onload = function () {
+    writeData();
+  }
+</script>
+
 </html>
