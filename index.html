@@ -118,9 +118,10 @@
     }
 
     #aplayer {
-      position: fixed;
+      position: absolute;
       bottom: 0;
       left: 0;
+      width: 334px;
     }
   </style>
 </head>
@@ -168,6 +169,8 @@
 </body>
 <script>
   const ap = new APlayer({
+    autoplay: true,
+
     container: document.getElementById('aplayer'),
     audio: [{
 
